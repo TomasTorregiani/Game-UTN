@@ -1,0 +1,9 @@
+#footerDiv p{
+    background-color: black;
+    color: white;
+    height: 50px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
