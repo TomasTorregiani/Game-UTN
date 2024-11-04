@@ -1,8 +1,0 @@
-.monstruoDiv{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.monstruoDiv p{
-    background-color: white;
-}

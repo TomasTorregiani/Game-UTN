@@ -1,18 +1,16 @@
-.slimeDiv{
+.trollDiv{
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin-left: 150px;
+    align-items: center;
 }
-.slimeDiv p{
-    background-color: white;
-}
-
-.slimeDiv2 {
+.trollDiv2 {
     display: flex;
     justify-content: space-between;
 }
-.slimeButton{
+.trollDiv p{
+    background-color: white;
+}
+.trollButton{
     color: white;
     background-color: rgba(0.4, 0.4, 0.4, 0.6);
     height: 30px;

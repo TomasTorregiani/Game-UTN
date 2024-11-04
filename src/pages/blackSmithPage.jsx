@@ -1,78 +1,50 @@
 import { useState } from "react"
-import "../styles/components/pages/blackSmith.css"
-import { Daga } from "../components/daga"
-import { Espada } from "../components/espada"
-import { Hacha } from "../components/hacha"
+import { BuyWeapons } from "../components/buyWeapons"
+import { Weapons } from "../components/weapons"
 import { Link } from "react-router-dom"
 import { FaHouse } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+import "../styles/components/pages/blackSmith.css"
 
 export const BlackSmithPage = () => {
 
-    const [accion, setAccion] = useState("")
-    const [comprar, setComprar] = useState("")
+    const [action, setAction] = useState('')
 
-    const handleAccion = (e) => {
-        setAccion(e.currentTarget.value)
-    }
+    const stats = useSelector(state => state.stats)
 
-    const handleComprar = (e) => {
-        setComprar(e.currentTarget.value)
-    }
     const components = {
-        daga : Daga,
-        hacha: Hacha,
-        espada: Espada
+        buy: BuyWeapons,
+        weapons: Weapons
     }
 
-    const ComponentToRender = components[comprar]
+    const handleAction = (e) => {
+        setAction(e.currentTarget.value)
+    }
 
+    const ComponentToRender = components[action]
 
     return (
         <div className="blackSmithDiv">
-            
-                <h2>Te encuentras en la herreria</h2>
-                <Link to="/townCenter"><button className="herreriaButton">Volver al centro urbano <FaHouse />
-                </button></Link>
-            
-            {accion === "vender" ? <div>  
-                                        <div  className="flexContainer">
-                                            <p className="centrarP">Vender armas</p>
-                                        </div>
-                                        <div  className="flexDiv">
-                                            <button className="herreriaButton">Vender daga</button>
-                                            <button className="herreriaButton">Vender hacha</button>
-                                            <button className="herreriaButton">Vender espada</button> 
-                                            <button className="herreriaButton2" onClick={handleAccion} value="comprar">Comprar arma</button>
-                                        </div>                        
-                                    </div> 
-                                :  accion === "comprar" ?   <div>
-                                                                <div  className="flexContainer">
-                                                                    <p className="centrarP">Comprar armas</p>
-                                                                </div>
-                                                                <div  className="flexDiv">
-                                                                    <button className="herreriaButton" onClick={handleComprar} value="daga">Comprar daga</button>
-                                                                    <button className="herreriaButton" onClick={handleComprar} value="hacha">Comprar hacha</button>
-                                                                    <button className="herreriaButton" onClick={handleComprar} value="espada">Comprar espada</button>
-                                                                    <button className="herreriaButton2" onClick={handleAccion} value="vender">Vender arma</button>
-                                                                    {ComponentToRender && <ComponentToRender/>}
-                                                                </div>
-                                                                
-                                                            </div>
-                                                            :   <div>
-                                                                <div className="flexContainer">
-                                                                    <p className="centrarP">Puedes comprar armas nuevas o vender armas antiguas</p>
-                                                                </div>  
-                                                                    <div  className="flexDiv">
-                                                                        <button className="herreriaButton" onClick={handleAccion} value="comprar">Comprar arma</button>
-                                                                        <button className="herreriaButton" onClick={handleAccion} value="vender">Vender arma</button>
-                                                                    </div>
-                                                                    
-                                                                </div>
-                                }
-                                            <div>
-
+            <h2>Te encuentras en la herreria</h2>
+            <div style={{display:"flex", justifyContent:"center", backgroundColor:"white"}}>
+                <p style={{margin:"10px"}}>HP: {stats.life}</p>
+                <hr />
+                <p style={{margin:"10px"}}>XP: {stats.xp}</p>
+                <hr />
+                <p style={{margin:"10px"}}>GOLD: {stats.gold}</p>
+            </div>
+                <Link to="/townCenter">
+                    <button className="herreriaButton">
+                        Volver al centro urbano <FaHouse />
+                    </button>
+                </Link>
+            <div style={{display:"flex", justifyContent:"center"}}>
+                <button className="herreriaButton" onClick={handleAction} value="buy">Comprar armas</button>
+                <button className="herreriaButton" onClick={handleAction} value="weapons">Ver todas mis armas</button>
+            </div>
+            <div style={{display:"flex", justifyContent:"center"}}>
+                {ComponentToRender && <ComponentToRender/>}
             </div>
         </div>
-        
     )
 }
