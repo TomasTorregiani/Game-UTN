@@ -9,6 +9,8 @@ export const Daga = () => {
     const dispatch = useDispatch()
     const weapons = useSelector(state => state.weapons)
 
+    const stats = useSelector(state => state.stats)
+
     useEffect(() => {
         localStorage.setItem('arsenal', JSON.stringify(weapons));
     }, [weapons]);

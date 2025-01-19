@@ -12,7 +12,6 @@ export const Weapons = () => {
             {weapons.map(weapon => (<div style={{margin:"0px 40px"}} key={weapon.id}>
                                         <h3>{weapon.name.toUpperCase()}</h3>
                                         <img style={{width:"200px", height:"250px"}} src={weapon.img} alt={weapon.name} />
-                                        
                                     </div>))}
         </div>
     )

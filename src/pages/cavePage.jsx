@@ -13,6 +13,9 @@ const CavePage = () => {
 
     const stats = useSelector(state => state.stats)
 
+    console.log(`Cave: Estado de oro:`, stats.gold);
+    
+
     const handlePelear = (e) => {
         setPelear(e.currentTarget.value)
     }

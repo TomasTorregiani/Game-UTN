@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     life: 100,
     xp:0,
-    gold:5000,
+    gold:0,
 }
 
 const statsSlice = createSlice({
@@ -16,8 +16,8 @@ const statsSlice = createSlice({
         handleXp: (state, action) => {
             state.xp += action.payload.xp
         },
-        handleGold: (state, action) => {
-            state.gold += action.payload.gold
+        addGold: (state, action) => {
+            state.gold += action.payload
         }, 
         substractGold:(state, action) => {
             state.gold -= action.payload
@@ -30,5 +30,5 @@ const statsSlice = createSlice({
     }
 })
 
-export const { handleLife, handleXp, handleGold, restartStats, substractGold } = statsSlice.actions
+export const { handleLife, handleXp, addGold, restartStats, substractGold } = statsSlice.actions
 export default statsSlice.reducer

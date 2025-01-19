@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
-import { handleLife, restartStats } from "../state/statsSlice"
-import { slimeLifeReducer } from "../state/monsterStatsSlice"
+import { handleLife, restartStats, addGold } from "../state/statsSlice"
+import { modifyMonsterLife, restartMonsterLife } from "../state/monsterStatsSlice"
 import "../styles/components/layout/slime.css"
 import { useNavigate } from "react-router-dom"
 
@@ -10,6 +10,9 @@ export const Slime = () => {
     const weapon = useSelector(state => state.weapons)
     const stats = useSelector(state => state.stats)
 
+    console.log(`Slime: Slime.gold:`, slime.gold);
+    
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const currentWeapon = weapon[weapon.length - 1]
@@ -17,29 +20,43 @@ export const Slime = () => {
     const calculateDamage = (attackPower) => {
         return Math.floor(Math.random() * attackPower)
     }
+    const calculateGold = (monsterGold) => {
+        return Math.floor(Math.random() * monsterGold)
+    }
 
-        const handleAttack = () => {
+    const handleAttack = () => {
+        
+        const damageGiven = calculateDamage(currentWeapon.power)
+        const damageReceive = calculateDamage(slime.power)
 
-            const damageGiven = calculateDamage(currentWeapon.power)
-            const damageReceive = calculateDamage(slime.power)
-    
-            dispatch(handleLife(damageReceive))
-            dispatch(slimeLifeReducer(damageGiven))
-    
-            console.log(`Le generas ${damageGiven} de danio al slime`);
-            console.log(`El slime te ataca por ${damageReceive}`);
+        dispatch(handleLife(damageReceive))
+        dispatch(modifyMonsterLife({name: slime.name, damage: damageGiven}))
 
-            if(slime.life - damageGiven <= 0){
-                alert(`Derrotaste al ${slime.name}`);
-                navigate('/townCenter')
+        console.log(`Slime: Le generas ${damageGiven} de daño al slime`);
+        console.log(`Slime: El slime te ataca por ${damageReceive}`);
+        if(slime.life - damageGiven <= 0){
+            console.log(`Slime derrotado, calculando oro...`);
+            if(typeof slime.gold === "number" && slime.gold > 0){
+                const goldReceive = calculateGold(slime.gold)
+                if (!isNaN(goldReceive)) {
+                    dispatch(addGold(goldReceive));
+                    alert(`Derrotaste al ${slime.name}`);
+                    navigate('/townCenter')
+                    console.log(`slime: oro recibido`, goldReceive);
+                    
+                } else {
+                    console.error("Slime: Invalid gold received:", goldReceive);
+                }
             }
-    
-            if(stats.life - damageReceive <= 0){
-                alert(`Muriste amigo`)
-                dispatch(restartStats())
-                navigate('/')
-            }
+            dispatch(restartMonsterLife({name: slime.name}))
         }
+
+        if(stats.life - damageReceive <= 0){
+            alert(`Muriste amigo`)
+            dispatch(restartStats())
+            navigate('/')
+        }
+    }
 
     return (
         <div className="slimeDiv">

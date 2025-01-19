@@ -3,13 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = [
     {
         name: "slime",
-        life: 200,
-        power: 15
+        life: 5,
+        power: 15,
+        gold: 20
     },
     {
         name: "troll",
-        life: 500,
-        power: 50
+        life: 1,
+        power: 1,
+        gold: 40
     }
 ]
 
@@ -17,20 +19,23 @@ const monsterStats = createSlice({
     name:"monstersSlice",
     initialState,
     reducers: {
-        slimeLifeReducer: (state, action) => {
-            const slime = state.find(el => el.name === "slime")
-            if(slime){
-                slime.life -= action.payload
+        modifyMonsterLife: (state, action) => {
+            const { name, damage } = action.payload
+            const monster = state.find(el => el.name === name)
+            if(monster){
+                monster.life -= damage
             }
         },
-        trollLifeReducer: (state, action) => {
-            const troll = state.find(el => el.name === "troll")
-            if(troll){
-                troll.life -= action.payload
+        restartMonsterLife: (state, action) => {
+            const { name } = action.payload
+            const initialMonster = initialState.find(el => el.name === name)
+            const monster = state.find(el => el.name === name)
+            if(monster && initialMonster){
+                monster.life = initialMonster.life
             }
         }
     }
 })
 
-export const { slimeLifeReducer, trollLifeReducer } = monsterStats.actions;
+export const {  modifyMonsterLife, restartMonsterLife } = monsterStats.actions;
 export default monsterStats.reducer;

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 const TownCenterPage = () => {
 
     const stats = useSelector(state => state.stats)
+    console.log(`TC: oro`,stats.gold)
 
     return (
         <div className="townCenterDiv">
